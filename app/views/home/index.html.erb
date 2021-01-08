@@ -1,0 +1,42 @@
+<% if current_user %>
+  Logged in as <%= current_user.email %>.
+  <%= link_to "Log Out", logout_path %>
+<% else %>
+  <%= link_to "Sign Up", signup_path %> or 
+  <%= link_to "Log In", login_path %>
+<% end %>
+<p id=”notice”><%= notice %></p>
+<h1>Welcome to JobFinder!</h1>
+<!-- Button trigger modal -->
+<% if notice == "Logged in!" %>
+<%= link_to 'Post new Job', new_job_path %>
+
+<% end %>
+
+
+
+  <tbody>
+    <ul>
+
+    <% Job.all.paginate(page: params[:page], per_page: 10).order("created_at DESC").each do |job| %>
+      <tr>
+    <li>
+
+
+
+        <div><h2>        <%= link_to job.title, job,target: "_blank" %>
+</h2></div>
+
+        <div><h4><%= job.company %>&nbsp;  <%= job.city %>&nbsp;  <%= job.state %></h4></div>
+  
+        <div><%= job.posted %>&nbsp;-<%=job.body%>&nbsp;</div>
+    </li>
+
+      </tr>
+    <% end %>
+      </ul>
+<%= will_paginate  Job.all.paginate(page: params[:page], per_page: 10)%>
+
+  </tbody>
+
+
